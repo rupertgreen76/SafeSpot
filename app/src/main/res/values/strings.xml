@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">SafeSpot</string>
+    <string name="sign_in_to_account">Sign in to your account</string>
+    <string name="email">Email</string>
+    <string name="email_hint">email@example.com</string>
+    <string name="password">Password</string>
+    <string name="password_hint">enteryourpassword</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_in">" Sign in"</string>
+    <string name="or_text">or</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="tagline">Community Safety Platform · Taguig City</string>
+    <string name="safe_spot">Safe Spot</string>
+
+    <string name="home_tab">🏠 Home</string>
+    <string name="profile_tab">👤 Profile</string>
+    <string name="safety_guide_tab">🛡️ Safety Guide</string>
+
+    <string name="reporter_label">Reporter: </string>
+    <string name="report_button">Report</string>
+    <string name="ai_warning">Warning: Some posted images may be AI-generated. Verify before trusting. Report if misleading.</string>
+
+    <string name="sample_reporter_1">James Harry Potter</string>
+    <string name="sample_location_1">3th Avenue, Brgy. Fort Bonifacio\n1634, Taguig City</string>
+    <string name="sample_description_1">A fire has broken out near a residential building. Thick smoke is spreading across nearby streets, and firefighters are currently responding.</string>
+
+    <string name="sample_reporter_2">Tiaron Jay Queja</string>
+    <string name="sample_location_2">Upper McKinley Road, Brgy.\nPinagsama, 1630, Taguig City</string>
+    <string name="sample_description_2">Floodwaters have risen rapidly due to continuous heavy rain. Some roads are now impassable.</string>
+
+    <string name="hello_user">Hello, Peter Parker</string>
+    <string name="add_post">Add Post</string>
+    <string name="sample_user">Peter Parker</string>
+    <string name="delete_button">Delete</string>
+
+    <string name="create_post">Create Post</string>
+    <string name="post_anonymously">Post Anonymously</string>
+    <string name="location_label">Location</string>
+    <string name="locate_my_location">📍 Locate My Location</string>
+    <string name="description_label">Description</string>
+    <string name="description_hint">Describe the emergency&#8230;</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="choose_file">Choose File</string>
+    <string name="no_file_chosen">No file chosen</string>
+    <string name="post_button">Post</string>
+
+    <string name="menu_title">Menu</string>
+    <string name="notification_label">Notification</string>
+    <string name="emergency_contacts_title">Emergency Contacts</string>
+    <string name="emergency_contacts_list">National Emergency: 911\nTaguig Rescue: 02-8643-0000\nFire Department: 160\nHospital: 02-8643-0000</string>
+    <string name="about_safespot_title">About SafeSpot</string>
+    <string name="about_safespot_description">SafeSpot is a community-driven platform designed to help residents of Taguig City report real-time incidents in their area. It allows users to share location-based updates with photos to keep others informed and safe across Taguig City.</string>
+    <string name="logout_button">Logout</string>
+
+    <string name="search_title">Search</string>
+    <string name="pinagsama_hint">Pinagsama</string>
+
+    <string name="my_location_title">My Location</string>
+    <string name="is_this_your_location">Is this your location?</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="cancel_button">Cancel</string>
+
+    <string name="fire_safety_title">Fire Safety</string>
+    <string name="fire_safety_tips">- Evacuate immediately and stay low to avoid smoke\n- Do NOT use elevators; use stairs only\n- Close doors behind you to prevent spread\n- Cover nose and mouth with cloth if needed\n- Call emergency services (911)</string>
+    <string name="flood_safety_title">Flood Safety</string>
+    <string name="flood_safety_tips">- Move to higher ground immediately\n- Avoid walking or driving through floodwater\n- Stay away from electrical hazards\n- Follow evacuation orders\n- Keep emergency supplies ready</string>
+    <string name="typhoon_safety_title">Typhoon Safety</string>
+    <string name="typhoon_safety_tips">- Stay indoors and secure your home\n- Prepare emergency kit (food, water, flashlight)\n- Avoid coastal and flood-prone areas\n- Monitor weather updates\n- Charge devices and power banks</string>
+</resources>
