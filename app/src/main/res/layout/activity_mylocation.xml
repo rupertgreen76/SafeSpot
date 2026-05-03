@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     tools:context=".MyLocation">
 
     <!-- Header Toolbar -->
@@ -13,7 +12,6 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FFFFFF"
         android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -26,7 +24,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_revert"
-            app:tint="@color/black"
+            app:tint="?attr/colorOnSurface"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -34,41 +32,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/my_location_title"
-            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <!-- Map Area Placeholder -->
-    <FrameLayout
-        android:id="@+id/map_container"
+    <!-- OSMDroid Map -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#EEEEEE"
         app:layout_constraintBottom_toTopOf="@+id/location_details_card"
-        app:layout_constraintTop_toBottomOf="@id/header">
-
-        <!-- Placeholder for Map Image -->
-
-        <!-- Pin Overlay -->
-        <ImageView
-            android:id="@+id/ivMapPlaceholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/map"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_mylocation"
-            app:tint="#D32F2F"
-            tools:ignore="ContentDescription" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
     <!-- Bottom Location Card -->
     <com.google.android.material.card.MaterialCardView
@@ -92,7 +67,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/is_this_your_location"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -102,10 +76,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                app:drawableStartCompat="@android:drawable/ic_menu_mylocation"
                 android:drawablePadding="8dp"
+                app:drawableStartCompat="@android:drawable/ic_menu_mylocation"
                 app:drawableTint="#1E88E5"
-                android:text="@string/sample_location_2"
+                android:text="Locating..."
                 android:textColor="#1E88E5"
                 android:textSize="14sp" />
 

@@ -19,3 +19,21 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Firebase
+-keep class com.google.firebase.** { *; }
+-keep class com.google.android.gms.** { *; }
+
+# OSMDroid
+-keep class org.osmdroid.** { *; }
+
+# Keep data classes
+-keep class com.example.safespotfinalapps.Post { *; }
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}

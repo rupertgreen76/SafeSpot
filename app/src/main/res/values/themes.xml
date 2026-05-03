@@ -1,8 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.SafeSpotFinalapps" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#1a73e8</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="android:textColorPrimary">#1a1a1a</item>
+        <item name="android:textColorSecondary">#666666</item>
     </style>
 
     <style name="Theme.SafeSpotFinalapps" parent="Base.Theme.SafeSpotFinalapps" />

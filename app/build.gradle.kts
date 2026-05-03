@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -22,7 +23,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -41,7 +42,15 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

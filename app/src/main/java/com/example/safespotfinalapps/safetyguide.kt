@@ -41,28 +41,33 @@ class SafetyGuide : AppCompatActivity() {
         // Toolbar Actions
         btnMenu.setOnClickListener {
             val intent = Intent(this, Logout::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
         }
 
         btnAddPost.setOnClickListener {
             val intent = Intent(this, CreatePostAnonymously::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
         }
 
         btnSearch.setOnClickListener {
             val intent = Intent(this, SearchBar::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
         }
 
         // Navigation Tabs
         tabHome.setOnClickListener {
             val intent = Intent(this, Home::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
             finish()
         }
 
         tabProfile.setOnClickListener {
             val intent = Intent(this, Profile::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
             finish()
         }

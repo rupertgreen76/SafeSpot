@@ -1,7 +1,14 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SafeSpotFinalapps" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.SafeSpotFinalapps" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#1a73e8</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:colorBackground">#121212</item>
+        <item name="colorSurface">#1E1E1E</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#AAAAAA</item>
     </style>
+
+    <style name="Theme.SafeSpotFinalapps" parent="Base.Theme.SafeSpotFinalapps" />
 </resources>
