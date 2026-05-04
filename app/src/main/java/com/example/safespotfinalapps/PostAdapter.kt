@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.Timestamp
 import java.util.Date
 
@@ -70,16 +72,26 @@ class PostAdapter(
             holder.tvLocation.visibility = View.GONE
         }
 
-        if (post.imageUrl.isNotEmpty()) {
+        holder.tvDescription.text = post.description
+
+        // FIX: trim the URL and load with improved Glide settings
+        val imageUrl = post.imageUrl.trim()
+        if (imageUrl.isNotEmpty()) {
             holder.ivPostImage.visibility = View.VISIBLE
             Glide.with(holder.itemView.context)
-                .load(post.imageUrl)
-                .centerCrop()
-                .placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_gallery)
+                .load(imageUrl)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .placeholder(android.R.drawable.ic_menu_gallery)
+                        .error(android.R.drawable.ic_menu_gallery)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .timeout(15000)
+                )
                 .into(holder.ivPostImage)
         } else {
             holder.ivPostImage.visibility = View.GONE
+            Glide.with(holder.itemView.context).clear(holder.ivPostImage)
         }
 
         if (showDeleteButton) {
