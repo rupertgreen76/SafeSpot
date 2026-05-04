@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Base64
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -22,7 +21,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -34,7 +32,6 @@ import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.io.OutputStreamWriter
 
 class CreatePostAnonymously : AppCompatActivity() {
 
@@ -63,7 +60,11 @@ class CreatePostAnonymously : AppCompatActivity() {
     private var selectedLng: Double = 0.0
     private var selectedImageBitmap: Bitmap? = null
 
-    private val IMGBB_API_KEY = "82bded08692a571c6906eaebec175fa4"
+    // ── Cloudinary config ──────────────────────────────────────────────────────
+
+    private val CLOUDINARY_CLOUD_NAME = "dud3qnrw1"
+    private val CLOUDINARY_UPLOAD_PRESET = "safespot_preset"
+    // ──────────────────────────────────────────────────────────────────────────
 
     private val disasterTypes = listOf(
         "🌊 Flood",
@@ -238,9 +239,9 @@ class CreatePostAnonymously : AppCompatActivity() {
             btnPost.isEnabled = false
             progressBar.visibility = View.VISIBLE
 
-            // If image selected, upload to ImgBB first
+            // If image selected, upload to Cloudinary first
             if (selectedImageBitmap != null) {
-                uploadImageToImgBB(selectedImageBitmap!!) { imageUrl ->
+                uploadImageToCloudinary(selectedImageBitmap!!) { imageUrl ->
                     savePostToFirestore(description, isAnonymous, disasterType, currentUser.uid, currentUser.email, imageUrl)
                 }
             } else {
@@ -258,41 +259,75 @@ class CreatePostAnonymously : AppCompatActivity() {
         }
     }
 
-    private fun uploadImageToImgBB(bitmap: Bitmap, onComplete: (String) -> Unit) {
+    /**
+     * Uploads [bitmap] to Cloudinary using an unsigned upload preset (multipart/form-data).
+     * This avoids Base64 inflation and is the recommended approach for mobile clients.
+     * Calls [onComplete] with the secure_url on success, or an empty string on failure.
+     */
+    private fun uploadImageToCloudinary(bitmap: Bitmap, onComplete: (String) -> Unit) {
         Thread {
             try {
-                // Compress bitmap to Base64
+                // 1. Compress bitmap to JPEG bytes
                 val outputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-                val byteArray = outputStream.toByteArray()
-                val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+                val imageBytes = outputStream.toByteArray()
 
-                // Send to ImgBB
-                val url = URL("https://api.imgbb.com/1/upload?key=$IMGBB_API_KEY")
-                val connection = url.openConnection() as HttpURLConnection
+                // 2. Build multipart/form-data body manually
+                val boundary = "SafeSpotBoundary${System.currentTimeMillis()}"
+                val CRLF = "\r\n"
+                val bodyStream = ByteArrayOutputStream()
+
+                fun writeLine(s: String) = bodyStream.write((s + CRLF).toByteArray(Charsets.UTF_8))
+
+                // -- upload_preset field
+                writeLine("--$boundary")
+                writeLine("Content-Disposition: form-data; name=\"upload_preset\"")
+                writeLine("")
+                writeLine(CLOUDINARY_UPLOAD_PRESET)
+
+                // -- file field
+                writeLine("--$boundary")
+                writeLine("Content-Disposition: form-data; name=\"file\"; filename=\"post_image.jpg\"")
+                writeLine("Content-Type: image/jpeg")
+                writeLine("")
+                bodyStream.write(imageBytes)
+                writeLine("")
+
+                // closing boundary
+                writeLine("--$boundary--")
+
+                val bodyBytes = bodyStream.toByteArray()
+
+                // 3. Open connection to Cloudinary upload endpoint
+                val uploadUrl = URL("https://api.cloudinary.com/v1_1/$CLOUDINARY_CLOUD_NAME/image/upload")
+                val connection = uploadUrl.openConnection() as HttpURLConnection
                 connection.requestMethod = "POST"
                 connection.doOutput = true
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=$boundary")
+                connection.setRequestProperty("Content-Length", bodyBytes.size.toString())
+                connection.connectTimeout = 20_000
+                connection.readTimeout = 20_000
 
-                val postData = "image=${java.net.URLEncoder.encode(base64Image, "UTF-8")}"
-                val writer = OutputStreamWriter(connection.outputStream)
-                writer.write(postData)
-                writer.flush()
-                writer.close()
+                connection.outputStream.use { it.write(bodyBytes) }
 
+                // 4. Parse response
                 val responseCode = connection.responseCode
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     val response = connection.inputStream.bufferedReader().readText()
                     val json = JSONObject(response)
-                    val imageUrl = json.getJSONObject("data").getString("url")
+                    // Use secure_url so images are always served over HTTPS
+                    val imageUrl = json.getString("secure_url")
                     runOnUiThread { onComplete(imageUrl) }
                 } else {
+                    val errorBody = connection.errorStream?.bufferedReader()?.readText() ?: "No error body"
+                    android.util.Log.e("Cloudinary", "Upload failed [$responseCode]: $errorBody")
                     runOnUiThread {
                         Toast.makeText(this, "Image upload failed, posting without image", Toast.LENGTH_SHORT).show()
                         onComplete("")
                     }
                 }
             } catch (e: Exception) {
+                android.util.Log.e("Cloudinary", "Upload exception", e)
                 runOnUiThread {
                     Toast.makeText(this, "Image upload error: ${e.message}", Toast.LENGTH_SHORT).show()
                     onComplete("")
